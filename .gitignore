@@ -1,13 +1,5 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
+# Temporary files
+*~
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+# Linux OS directory files
+.directory
