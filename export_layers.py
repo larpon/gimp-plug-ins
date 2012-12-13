@@ -21,6 +21,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 
 from gimpfu import *
 import os, re
@@ -33,26 +34,28 @@ def dbg(message):
 	print message
 
 
-def export_layers(img, draw, path, option_visible, fn, fn_token):
+def export_layers(img, draw, path, visibility, fn, fn_token):
 
 	def traverse(layer,options):
 		vis = options['visibility']
+		include_layer = (vis == 0 or (vis == 1 and layer.visible) or (vis == 2 and not layer.visible))
+		include_group_layer = (vis == 0 or (vis == 1 and layer.visible) or (vis == 2 and not layer.visible))
 		if (type(layer) == gimp.GroupLayer):
-			if vis == 0 or (vis == 1 and layer.visible) or (vis == 2 and not layer.visible):
+			if include_group_layer:
 				for l in layer.layers:
 					traverse(l,options)
 		else:
-			
-			if vis == 0 or (vis == 1 and layer.visible) or (vis == 2 and not layer.visible):
+			if include_layer:
 				options['keepers'].append(layer)
+
 	layers = []
 	options = {
-		'visibility' : option_visible,
+		'visibility' : visibility,
 		'keepers' : layers
 	}
 	for layer in img.layers:
 		traverse(layer,options)
-	
+
 
 	i = 0
 	for layer in layers:
@@ -87,7 +90,7 @@ register(
 		(PF_IMAGE, "img", "Input image", None),
         (PF_DRAWABLE, "draw", "Input drawable", None),
 		(PF_DIRNAME, "path", "Output directory", expanduser("~")),
-        (PF_OPTION, "option_visible", "Visibility", 1, ("All", "Visible", "Invisible")),
+        (PF_OPTION, "visibility", "Visibility", 1, ("All", "Visible", "Invisible")),
         (PF_STRING, "fn", "File pattern", "#.png"),
         (PF_OPTION, "fn_token", "Tokens", 0, ("# = Layer name", "# = Count", "# = Count (zero padded)"))
 	],
