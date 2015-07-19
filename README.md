@@ -17,3 +17,15 @@ Happy exporting!
 | ------------- | ------------- |
 | ![Screenshot](./screenshot_2.png)  | ![Screenshot](./screenshot_1.png)  |
 | Puts itself into the *file* dialog  | The dialog for export options |
+
+## Install
+[The Gimp Wiki describes this pretty well](https://en.wikibooks.org/wiki/GIMP/Installing_Plugins#Copying_the_plugin_to_the_GIMP_plugin_directory)
+To install the plug-in it's basically just copying the desired plug-in file to the Gimp plug-in directory.
+
+### Quick Linux example
+Gimp 2.8 plug-in folder is in `~/.gimp-2.8/plug-ins/`.
+```
+cd /path/to/gimp-plug-ins
+cp export-layers.py ~/.gimp-2.8/plug-ins/
+```
+Now when you start Gimp the next time it should have loaded the plug-in.
